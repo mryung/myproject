@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<context:component-scan base-package="com.test.comtroller">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	<context:component-scan base-package="com.myproject.aspect"></context:component-scan>
+	
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:datasource.properties</value>
+				<value>classpath:system.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding" value="UTF-8"></property>
+	</bean>
+	
+	<!-- 数据源配置 -->
+	<bean id="datasource" class="com.mchange.v2.c3p0.jboss.C3P0PooledDataSource">
+		<property name="user" value="${mysql.jdbc.user}"></property>
+		<property name="password" value="${mysql.jdbc.password}"></property>
+		<property name="driverClass" value="${mysql.jdbc.classdriver}"></property>
+		<property name="jdbcUrl" value="${mysql.jdbc.url}"></property>
+		<property name="maxPoolSize" value="${mysql.jdbc.maxPoolSize}"></property>
+		<property name="minPoolSize" value="${mysql.jdbc.minPoolSize}"></property>
+		<property name="initialPoolSize" value="${mysql.jdbc.initialPoolSize}"></property> 
+	</bean>
+	
+	<!-- hibernate 配置 -->
+	<bean id="sessionFactory" 
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="datasource"></property>
+		<property name="configLocations">
+			<list>
+				<!-- 配置多个hibernate 配置文件路径 -->
+				<value>classpath:hibernate.cfg.xml</value>
+			</list>
+		</property>
+		<!-- 配置hibernate 映射类的位子 -->
+		<property name="packagesToScan">
+			<list>
+				<!-- 配置多个实体类的路径。可以用通配符 -->
+				<value>src/main/java</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="transactionManager" 
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 声明式事务
+	<bean id="transactionManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasource"></property>
+	</bean>  -->
+	<!-- 事务的管理器， 采取借口的事务代理 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false"/>
+	
+	<!-- 定义日志 切面  面向接口-->
+	<aop:aspectj-autoproxy proxy-target-class="false"></aop:aspectj-autoproxy>
+</beans>

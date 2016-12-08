@@ -1,0 +1,8 @@
+.settings/
+*.class
+.classpath
+.project
+.springBeans
+*.jar
+/src/test/
+/target

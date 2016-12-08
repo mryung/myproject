@@ -1,0 +1,10 @@
+返回 json
+
+httpMessageConverter<T> 负责将请求信息转化为一个对象或将 对象转出
+
+spring 拦截器： 实现handlerInterceptor接口
+
+spring 用handlerExceptionResolver
+
+@exceptionHandler() 来处理异常
+用controllerAdvicer来处理 全面局异常
