@@ -1,5 +1,94 @@
 package com.myproject.util.log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.util.Arrays;
+import java.util.Properties;
+
+import org.bson.Document;
+import org.springframework.web.context.ContextLoader;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+
 public class MongoUtile {
+	private static MongoClient mongoClient;
+	private static Properties properties;
+	static{
+		try {
+			properties = new Properties();
+			
+//			System.out.println(ContextLoader.getCurrentWebApplicationContext()
+//					.getServletContext().getRealPath("/")+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			
+//			InputStream inputStream = ContextLoader.getCurrentWebApplicationContext()
+//			.getServletContext().getResourceAsStream("/WEB-INF/classes/datasource.properties");
+			InputStream inputStream = new FileInputStream("/src/main/resource/datasource.properties");
+//			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//			String line;
+//			while( (line = bufferedReader.readLine()) != null ) {
+//				System.out.println(line);
+//			}
+			properties.load(inputStream);
+			
+			System.err.println(properties.getProperty("mongo.username"));
+			//用户认证   
+			MongoCredential credential = MongoCredential
+					.createCredential(properties.getProperty("mongo.username")
+							,properties.getProperty("mongo.dbname")
+							, properties.getProperty("mongo.password").toCharArray());
+			
+			MongoClientOptions clientOptions = MongoClientOptions.builder()
+//						.sslEnabled(true) 		//加密传输
+						.connectionsPerHost(20) //每个目标数据库能够建立的最大connections的数量
+						.minConnectionsPerHost(2) //最小连接对每个主机
+						.maxConnectionIdleTime(1000*60*10) //连接的最大空闲时间
+						.maxConnectionLifeTime(1000*60*20) //连接的最大生命时间
+						.maxWaitTime(1000*60*1)  //连接的最大 等待时间
+						.connectTimeout(1000*60*1) //与数据库超时时间
+						.socketTimeout(1000*60*1) //socket超时时间
+						.writeConcern(new WriteConcern(1))
+						.build();
+			
+		 mongoClient = new MongoClient(new ServerAddress(properties.getProperty("mongo.host")
+				 	,Integer.parseInt(properties.getProperty("mongo.port")))
+				 	, Arrays.asList(credential)
+				 	, clientOptions);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public static MongoDatabase getConection(){
+		return mongoClient.getDatabase(properties.getProperty("mongo.dbname"));
+	}
+	
+	public static MongoCollection<Document> getCollection(String tableName){
+		return mongoClient
+				.getDatabase(properties.getProperty("mongo.dbname"))
+				.getCollection(tableName);
+		
+	}
+	public static void main(String[] args) {
+		MongoCollection<Document> collection = getCollection("hello");
+		Document document = new Document()
+				.append("name", "yulang")
+				.append("sex", "manqqqq")
+				.append("birthday", "1994-9-01");
+		collection.insertOne(document);
+//		collection.
+	}
 }

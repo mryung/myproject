@@ -14,6 +14,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 	<context:component-scan base-package="com.myproject.aspect"></context:component-scan>
+	<!-- 配置静态 工厂方法 -->
+	<bean id="mongodatabase" class="com.myproject.util.log.MongoUtile" factory-method="getConection"></bean>
 	
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
@@ -34,28 +36,31 @@
 		<property name="minPoolSize" value="${mysql.jdbc.minPoolSize}"></property>
 		<property name="initialPoolSize" value="${mysql.jdbc.initialPoolSize}"></property> 
 	</bean>
-	
-	<!-- hibernate 配置 -->
-	<bean id="sessionFactory" 
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	<!-- 配置entityManage -->
+	<bean id="entityManagerFactory" 
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource"></property>
-		<property name="configLocations">
-			<list>
-				<!-- 配置多个hibernate 配置文件路径 -->
-				<value>classpath:hibernate.cfg.xml</value>
-			</list>
+		<!-- jpa 提供商的提供的适配器 -->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
 		</property>
-		<!-- 配置hibernate 映射类的位子 -->
 		<property name="packagesToScan">
-			<list>
-				<!-- 配置多个实体类的路径。可以用通配符 -->
-				<value>src/main/java</value>
-			</list>
+			<array>
+				<value>com.myproject.entity</value>
+			</array>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.formate_sql">${hibernate.formate_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+			</props>
 		</property>
 	</bean>
-	<bean id="transactionManager" 
-		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+	<!-- jpa 事务管理 -->
+	<bean  id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property>		
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false"/>
 	

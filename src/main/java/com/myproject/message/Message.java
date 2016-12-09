@@ -1,18 +1,44 @@
 package com.myproject.message;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Message {
 	
-	//·µ»ØµÄ×´Ì¬Âë  1:±íÊ¾ÕıÈ·   0:±íÊ¾¾¯¸æ   -1£º±íÊ¾´íÎó 
+	//è¿”å›ç 
 	public int code;
-	//ÖØ¶¨ÏòµÄurl
+	//é‡å®šå‘çš„URL
 	public String redire;
-	//³ö´íÏûÏ¢£º ÓÃ×ö µ¯³ö¿ò
+	//è¿”å›çš„æ¶ˆæ¯
 	public String msg;
-	//ÁĞ±íĞÅÏ¢
+	//è¿”å›çš„ é¢å¤–æ¶ˆæ¯
 	public Map<String, Object> map;
 	
+	public Message newMessage(){
+		return new Message();
+	}
+	public Message newMessage(int code,String msg){
+		return new Message(code,msg);
+	}
+	public Message newMessage(int code,String msg,String redire){
+		return new Message(code,msg,redire);
+	}
 	
 	
+	private Message() {
+	}
+	private Message(int code,String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+	private Message(int code,String msg,String redire) {
+		this(code,msg);
+		this.redire = redire;
+	}
+	public void putParam(String key,Object value){
+		if(map == null){
+			map = new HashMap<String,Object>();
+		}
+		map.put(key, value);
+	}
 }

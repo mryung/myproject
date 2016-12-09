@@ -2,14 +2,17 @@ package com.myproject.aspect;
 
 import java.lang.reflect.Method;
 
-import org.aspectj.lang.JoinPoint;
+import javax.annotation.Resource;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.client.MongoCollection;
 import com.myproject.annotation.MethodLog;
 
 //用mongodb 来存储日志
@@ -18,6 +21,8 @@ import com.myproject.annotation.MethodLog;
 @Component
 public class LogControllerAspect {
 	
+	@Resource(name="mongodatabase")
+	private  MongoCollection collection;
 	/* 			action 日志 入口  			*/	
 	
 	@Pointcut(value = "@annotation(com.myproject.annotation.MethodLog)")  
@@ -30,6 +35,7 @@ public class LogControllerAspect {
 		
 		long start = System.currentTimeMillis();
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+		String methodName = signature.getName();
 		Method method = joinPoint.getTarget()
 				.getClass().getMethod(signature.getName(), signature.getParameterTypes());
 //		Method method = signature.getMethod();
@@ -48,7 +54,10 @@ public class LogControllerAspect {
 			//完成日志
 			long end = System.currentTimeMillis();
 			long sumTime = end - start;
-			System.out.println("服务名： "+ serviceName+" 操作类型： "+opertype+" 是否错误："+flag+"话费时间： "+ sumTime);
+			
+			
+			
+			System.out.println("方法名： "+methodName+"服务名： "+ serviceName+" 操作类型： "+opertype+" 是否错误："+flag+"话费时间： "+ sumTime);
 		}
 	}
 	
