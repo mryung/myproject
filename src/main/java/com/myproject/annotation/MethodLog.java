@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface MethodLog {
 	public String serviceName() default "test";
-	public String operType() default "0";
+	public String operType() default "index"; // index update delete add modify 
 }

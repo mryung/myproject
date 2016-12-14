@@ -3,24 +3,28 @@ package com.myproject.message;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Message {
+public class Message extends HashMap<String, Object>{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -709551315923967579L;
 	//返回码
-	public int code;
+//	public int code; 0 表示错误 1表示返回正确
 	//重定向的URL
-	public String redire;
+//	public String redire;
 	//返回的消息
 	public String msg;
 	//返回的 额外消息
 	public Map<String, Object> map;
 	
-	public Message newMessage(){
+	public static Message newMessage(){
 		return new Message();
 	}
-	public Message newMessage(int code,String msg){
+	public static Message newMessage(int code,String msg){
 		return new Message(code,msg);
 	}
-	public Message newMessage(int code,String msg,String redire){
+	public static Message newMessage(int code,String msg,String redire){
 		return new Message(code,msg,redire);
 	}
 	
@@ -28,17 +32,25 @@ public class Message {
 	private Message() {
 	}
 	private Message(int code,String msg) {
-		this.code = code;
-		this.msg = msg;
+		put("code", code);
+		put("msg", msg);
 	}
 	private Message(int code,String msg,String redire) {
 		this(code,msg);
-		this.redire = redire;
+		put("redire", redire);
 	}
+	
+	public void setCode(int code){
+		put("code", code);
+	}
+	public void setRedire(String redire){
+		put("redire", redire);
+	}
+	public void setMsg(String msg){
+		put("msg",msg);
+	}
+	
 	public void putParam(String key,Object value){
-		if(map == null){
-			map = new HashMap<String,Object>();
-		}
-		map.put(key, value);
+		put(key, value);
 	}
 }

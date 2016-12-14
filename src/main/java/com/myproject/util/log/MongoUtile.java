@@ -1,17 +1,11 @@
 package com.myproject.util.log;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.util.Arrays;
 import java.util.Properties;
 
 import org.bson.Document;
-import org.springframework.web.context.ContextLoader;
+import org.springframework.core.io.ClassPathResource;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
@@ -28,19 +22,8 @@ public class MongoUtile {
 	static{
 		try {
 			properties = new Properties();
-			
-//			System.out.println(ContextLoader.getCurrentWebApplicationContext()
-//					.getServletContext().getRealPath("/")+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			
-//			InputStream inputStream = ContextLoader.getCurrentWebApplicationContext()
-//			.getServletContext().getResourceAsStream("/WEB-INF/classes/datasource.properties");
-			InputStream inputStream = new FileInputStream("/src/main/resource/datasource.properties");
-//			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-//			String line;
-//			while( (line = bufferedReader.readLine()) != null ) {
-//				System.out.println(line);
-//			}
+			ClassPathResource classPathResource = new ClassPathResource("datasource.properties");
+			InputStream inputStream =  classPathResource.getInputStream();
 			properties.load(inputStream);
 			
 			System.err.println(properties.getProperty("mongo.username"));

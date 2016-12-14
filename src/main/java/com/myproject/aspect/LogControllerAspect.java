@@ -9,10 +9,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.myproject.annotation.MethodLog;
 
 //用mongodb 来存储日志
@@ -21,8 +23,9 @@ import com.myproject.annotation.MethodLog;
 @Component
 public class LogControllerAspect {
 	
-	@Resource(name="mongodatabase")
-	private  MongoCollection collection;
+	@Resource
+	@Qualifier(value="mongodatabase")
+	private  MongoDatabase database;
 	/* 			action 日志 入口  			*/	
 	
 	@Pointcut(value = "@annotation(com.myproject.annotation.MethodLog)")  
@@ -31,21 +34,20 @@ public class LogControllerAspect {
 	}
 	
 	@Around("pointControllerName()")
-	public void aroundAction(ProceedingJoinPoint  joinPoint) throws Throwable{
+	public Object aroundAction(ProceedingJoinPoint  joinPoint) throws Throwable{
 		
 		long start = System.currentTimeMillis();
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		String methodName = signature.getName();
 		Method method = joinPoint.getTarget()
 				.getClass().getMethod(signature.getName(), signature.getParameterTypes());
-//		Method method = signature.getMethod();
 		MethodLog annotation = method.getAnnotation(MethodLog.class);
 		String opertype = annotation.operType();
 		String serviceName = annotation.serviceName();
 		boolean flag = false;  //是否异常
 		try {
 			//记录 日志
-			joinPoint.proceed();
+		  return joinPoint.proceed();
 		} catch (Throwable e) {
 			//异常 日志
 			flag = true;
@@ -55,9 +57,15 @@ public class LogControllerAspect {
 			long end = System.currentTimeMillis();
 			long sumTime = end - start;
 			
-			
-			
-			System.out.println("方法名： "+methodName+"服务名： "+ serviceName+" 操作类型： "+opertype+" 是否错误："+flag+"话费时间： "+ sumTime);
+			MongoCollection<Document> collection = database.getCollection("logs");
+			Document document = new Document()
+					.append("methodName", methodName)
+					.append("serviceName", serviceName)
+					.append("opertype", opertype)
+					.append("spendtime", sumTime)
+					.append("flag", flag);
+			//以后加 操作的用户
+			collection.insertOne(document);
 		}
 	}
 	

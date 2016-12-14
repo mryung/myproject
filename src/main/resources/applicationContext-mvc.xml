@@ -37,7 +37,8 @@
     </bean>
 	
 	<!-- 配置 类型转化器 -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven ></mvc:annotation-driven>
+	<mvc:default-servlet-handler/>
 	<!-- 文件上传  -->
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="${defaultEncoding}"></property>
@@ -45,6 +46,7 @@
 		<property name="maxUploadSizePerFile" value="${maxUploadSizePerFile}"></property>
 		<property name="uploadTempDir" value="${uploadTempDir}"></property>
 	</bean> 
+	
 	
 	<!-- 定义面向切面编程 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
