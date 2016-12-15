@@ -23,15 +23,14 @@
           alert("填写提交路径");
           return false;
         }
-        if(!validateForm(form)){
+        if(!$.validateForm(form)){
         	return false;
         };
         var query;
         var xhr = new XMLHttpRequest();
-        
+
         if(!form.get(0).getAttribute("enctype")){
             query = form.serialize();
-            alert(query);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', target);
             xhr.send(query);
@@ -40,6 +39,11 @@
             		if(xhr.status == 200 || xhr.status == 304){
             			var data = eval("("+xhr.responseText+")");
             			alert(data.msg);
+            			if(data.code == 1){
+            				if(data.redire){
+            					window.location.href = data.redire;
+            				}
+            			}
             		}
             	}
             };
@@ -48,7 +52,7 @@
               var formData = new FormData();
               //建立一个upload 表单项，值为上传的文件
               formData.append('upload',document.getElementById('upload').files[0]);
-              
+
               xhr.open('POST', target);
               xhr.send(formData);
             }
@@ -62,20 +66,26 @@
 
   });
 }(jQuery);
-//验证表单类型
-function validateForm(node){
-   var nodeList = node.find('input,select,textarea');
-   for(var i = 0 ; i < nodeList.length;i++){
-	   
-	   if(nodeList.get(i).required){
-		   if(nodeList.get(i).value == ''){
-			   alert(nodeList.get(i).getAttribute("required"));
-			   return false;
+!function($){
+	//验证表单类型
+	$.validateForm = function(node){
+		   var nodeList = node.find('input,select,textarea');
+		   for(var i = 0 ; i < nodeList.length;i++){
+
+			   if(nodeList.get(i).required){
+				   if(nodeList.get(i).value == ''){
+					   alert(nodeList.get(i).getAttribute("required"));
+					   return false;
+				   }
+			   }
 		   }
-//		   alert(nodeList.get(i).getAttribute("type"));
-//		   alert();
-	   }
-   }
-   return true;
+		   return true;
+		}
+}(jQuery);
+!function($){
+	$.myAlertMessage = function(message,type,time){
+		type = type ? type : 'danger'; 
+	};
 }
+
 

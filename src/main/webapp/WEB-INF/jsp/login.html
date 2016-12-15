@@ -5,12 +5,13 @@
 <title>登录</title>
 <script type="text/javascript" src="${js}/jquery/jquery-3.1.1.js"></script>
 <script type="text/javascript" src="${js}/ajaxSubmit/submit.js"></script>
+<!-- <script type="text/javascript" src="${js}/myController.js"></script> -->
 <link rel="stylesheet" href="${css}/bootstrap/css/bootstrap.css">
 </head>
 <body>
 	<div class="container">
 		<div class="col-sm-6 col-sm-offset-3">
-				<h1 class="text-center">用户登录</h1>
+				<h1 class="text-center" id="form" >用户登录</h1>
 				<form action="login" class="form-horizontal login-form" method="post">
 					<div class="form-group">
 						<label for="username" class="col-sm-2 col-md-2 col-xs-2 control-label">用户名:</label>
@@ -44,4 +45,14 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	var height = document.documentElement.clientHeight / 10;
+	document.getElementById("form").style.margin = height+'px';
+	window.onresize = function(){
+		var height = document.documentElement.clientHeight / 10;
+		document.getElementById("form").style.margin = height+'px'; 
+	}
+	  
+	//document.getElementById("form").style.margin-top = height+"px";
+</script>
 </html>

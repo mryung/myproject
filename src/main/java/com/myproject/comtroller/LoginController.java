@@ -1,10 +1,8 @@
 package com.myproject.comtroller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +24,7 @@ public class LoginController extends BasicController {
 	@MethodLog(serviceName="登录控制器",operType="vertify")
 	public Map checklogin(){
 		System.out.println("hello");
-		return successAjax("登录成功");
+		return successAjax("登录成功","test");
 	}
 		
 }

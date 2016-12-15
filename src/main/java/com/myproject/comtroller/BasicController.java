@@ -12,7 +12,7 @@ public class BasicController {
 		return Message.newMessage(1, msg);
 	}
 	
-	public Message successAjax(String url,String msg){
+	public Message successAjax(String msg,String url){
 		return Message.newMessage(1, msg, url);
 	}
 	
