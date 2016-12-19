@@ -14,6 +14,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 	<context:component-scan base-package="com.myproject.aspect"></context:component-scan>
+	<context:component-scan base-package="com.myproject.service.imp"></context:component-scan>
+	<context:component-scan base-package="com.myproject.dao.imp"></context:component-scan>
 	<!-- 配置静态 工厂方法 -->
 	<bean class="com.myproject.util.log.MongoUtile" factory-method="getConection">
 		<qualifier value="mongodatabase"></qualifier>

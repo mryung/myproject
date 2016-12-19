@@ -18,8 +18,16 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
-
+	
+	<filter >
+		<filter-name>userloginfilter</filter-name>
+		<filter-class>com.myproject.filter.UserLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>userloginfilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
   <!-- The front controller of this Spring Web application, responsible for handling all application requests -->
 	<servlet>
 		<servlet-name>springDispatcherServlet</servlet-name>
