@@ -8,10 +8,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-//@WebFilter(urlPatterns="/",filterName="userLoginFilter")
 public class UserLoginFilter implements Filter {
 	
 	private static String PRE_PROJECT = "myproject_";
@@ -32,7 +30,7 @@ public class UserLoginFilter implements Filter {
 			}else{
 				String requestURI = httpServletRequest.getRequestURI();
 				if(requestURI.contains("login") 
-						|| requestURI.contains("checklogin") 
+						|| requestURI.contains("register") 
 						|| requestURI.contains("resource")){
 					chain.doFilter(request, response);
 				}else{

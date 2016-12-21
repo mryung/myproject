@@ -45,4 +45,12 @@ public class UserDaoImp extends BaseDaoImpl<User, Integer> implements UserDao {
 		return user.getUserId();
 	}
 
+	@Override
+	public User findUserByEmail(String email) {
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from tb_user where email = '"+email+"'");
+		return super.findBySQL(sql.toString(), User.class);
+	}
+
 }

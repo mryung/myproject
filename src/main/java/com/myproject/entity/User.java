@@ -1,79 +1,67 @@
 package com.myproject.entity;
 
-import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
-@Table(name="tb_user")
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "tb_user", catalog = "test")
+public class User implements java.io.Serializable {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="user_id")
+	// Fields
+
 	private Integer userId;
-
-	private String email;
-
-	@Column(name="login_name")
-	private String loginName;
-
-	@Column(name="organization_id")
-	private Integer organizationId;
-
-	private String password;
-
-	private String phone;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="user_gen_time")
-	private Date userGenTime;
-	
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="user_last_login_time")
-	private Date userLastLoginTime;
-
-	@Column(name="user_login_count")
-	private Integer userLoginCount;
-
-	@Column(name="user_login_ip")
-	private String userLoginIp;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="user_login_time")
-	private Date userLoginTime;
-
 	private String username;
+	private String password;
+	private Integer userAge;
+	private String phone;
+	private String email;
+	private Date userGenTime;
+	private Date userLoginTime;
+	private Date userLastLoginTime;
+	private String userLoginIp;
+	private String userLastLoginIp;
+	private Integer userLoginCount = 10 ;
+	private Integer class_;
+	private String description = "小红果";
+	private Integer deleted = 1;
+
+	// Constructors
 
 	public User() {
 	}
 
-	public String getEmail() {
-		return this.email;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id", unique = true, nullable = false)
+	public Integer getUserId() {
+		return this.userId;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public String getLoginName() {
-		return this.loginName;
+	@Column(name = "username", length = 100)
+	public String getUsername() {
+		return this.username;
 	}
 
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public Integer getOrganizationId() {
-		return this.organizationId;
-	}
-
-	public void setOrganizationId(int organizationId) {
-		this.organizationId = organizationId;
-	}
-
+	@Column(name = "password", length = 100)
 	public String getPassword() {
 		return this.password;
 	}
@@ -82,6 +70,16 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	@Column(name = "user_age")
+	public Integer getUserAge() {
+		return this.userAge;
+	}
+
+	public void setUserAge(Integer userAge) {
+		this.userAge = userAge;
+	}
+
+	@Column(name = "phone", length = 100)
 	public String getPhone() {
 		return this.phone;
 	}
@@ -90,6 +88,17 @@ public class User implements Serializable {
 		this.phone = phone;
 	}
 
+	@Column(name = "email", length = 100)
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(name = "user_gen_time", length = 19)
 	public Date getUserGenTime() {
 		return this.userGenTime;
 	}
@@ -97,15 +106,21 @@ public class User implements Serializable {
 	public void setUserGenTime(Date userGenTime) {
 		this.userGenTime = userGenTime;
 	}
-
-	public Integer getUserId() {
-		return this.userId;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(name = "user_login_time", length = 19)
+	public Date getUserLoginTime() {
+		return this.userLoginTime;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserLoginTime(Date userLoginTime) {
+		this.userLoginTime = userLoginTime;
 	}
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Column(name = "user_last_login_time", length = 19)
 	public Date getUserLastLoginTime() {
 		return this.userLastLoginTime;
 	}
@@ -114,14 +129,7 @@ public class User implements Serializable {
 		this.userLastLoginTime = userLastLoginTime;
 	}
 
-	public Integer getUserLoginCount() {
-		return this.userLoginCount;
-	}
-
-	public void setUserLoginCount(int userLoginCount) {
-		this.userLoginCount = userLoginCount;
-	}
-
+	@Column(name = "user_login_ip", length = 100)
 	public String getUserLoginIp() {
 		return this.userLoginIp;
 	}
@@ -130,20 +138,61 @@ public class User implements Serializable {
 		this.userLoginIp = userLoginIp;
 	}
 
-	public Date getUserLoginTime() {
-		return this.userLoginTime;
+	@Column(name = "user_login_count")
+	public Integer getUserLoginCount() {
+		return this.userLoginCount;
 	}
 
-	public void setUserLoginTime(Date userLoginTime) {
-		this.userLoginTime = userLoginTime;
+	public void setUserLoginCount(Integer userLoginCount) {
+		this.userLoginCount = userLoginCount;
 	}
 
-	public String getUsername() {
-		return this.username;
+	@Column(name = "class")
+	public Integer getClass_() {
+		return this.class_;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setClass_(Integer class_) {
+		this.class_ = class_;
 	}
+
+	@Column(name = "description")
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Column(name = "deleted")
+	public Integer getDeleted() {
+		return this.deleted;
+	}
+
+	public void setDeleted(Integer deleted) {
+		this.deleted = deleted;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", userAge=" + userAge
+				+ ", phone=" + phone + ", email=" + email + ", userGenTime=" + userGenTime + ", userLoginTime="
+				+ userLoginTime + ", userLastLoginTime=" + userLastLoginTime + ", userLoginIp=" + userLoginIp
+				+ ", userLoginCount=" + userLoginCount + ", deleted=" + deleted + "]";
+	}
+
+
+	@Column(name="user_last_login_ip")
+	public String getUserLastLoginIp() {
+		return userLastLoginIp;
+	}
+
+
+	public void setUserLastLoginIp(String userLastLoginIp) {
+		this.userLastLoginIp = userLastLoginIp;
+	}
+
 
 }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>注册界面</title>
+	<link rel="stylesheet" href="${css}/cui/cui.css">
+	<script type="text/javascript" src="${js}/jquery/jquery-1.12.1.min.js"></script>
+	<script type="text/javascript" src="${js}/cui/cui.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="col-sm-6 col-sm-offset-3">
+				<h1 class="text-center" id="form" >用户注册</h1>
+				<form action="register" class="form-horizontal login-form" method="post">
+					<div class="form-group">
+						<label for="username" class="col-sm-2 col-md-2 col-xs-2 control-label">用户名:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="text" name="username" value="yulang" class="form-control" required="填写用户名" id="username" placeholder="用户名">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-2 col-md-2 col-xs-2  control-label">密&nbsp;&nbsp;码:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="password" name="password" value="123456" required="填写密码" class="form-control" id="password" placeholder="密码">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-2 col-md-2 col-xs-2  control-label">确认密码:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="password" name="password1" value="123456" required="填写密码" class="form-control" id="password1" placeholder="密码">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="col-sm-2 col-md-2 col-xs-2  control-label">邮箱:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="email" name="email" value="2327654527@qq.com" class="form-control" required id="email" placeholder="邮箱">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="age" class="col-sm-2 col-md-2 col-xs-2  control-label">年龄:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="number" name="userAge" value="23" class="form-control"  id="age" placeholder="年龄">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="description" class="col-sm-2 col-md-2 col-xs-2  control-label">描述:</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<input type="text" name="description" value="这是一个描述" class="form-control"  id="description" placeholder="描述">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="class" class="col-sm-2 col-md-2 col-xs-2">
+							类别:
+						</label>
+						<div class="col-sm-10 col-xs-10 col-md-10">
+							<select class="form-control" name="class_">
+							  <option value="1">群众</option>
+							  <option value="2">医生</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-offset-2 col-sm-offset-2 col-sm-4 col-xs-4 col-md-4">
+							<button type="submit" class="btn btn-danger ajax-post" target-form="login-form"  style="display:block;margin: 0 auto;">提交</button>
+						</div>
+						<div class="col-sm-4 col-xs-4 col-md-4">
+							<button type="reset" class="btn btn-danger" style="display:block;margin: 0 auto;">重置</button>
+						</div>
+					</div>
+				</form>
+		</div>
+	</div>
+</body>
+</html>

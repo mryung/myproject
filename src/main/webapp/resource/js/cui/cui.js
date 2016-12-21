@@ -2462,7 +2462,6 @@
 
             $(that).addClass('disabled').attr('autocomplete', 'off').prop('disabled', true);
             $.post(target, query).success(function(data) {
-            	alert("heello");
                 if (data.status == 1) {
                     if (data.url && !$(that).hasClass('no-refresh')) {
                         var message = data.info + ' 页面即将自动跳转~';
