@@ -30,12 +30,13 @@ public class LoginController extends BasicController {
 	@ResponseBody
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	@MethodLog(serviceName="登录控制器",operType="vertify")
-	public Map checklogin(HttpServletRequest requst,String username,String password){
+	public Map checklogin(HttpSession session,String username,String password){
 		System.out.println("hello");
-		if(userService.vertifyUser(username, password) >= 0){
-			HttpSession session = requst.getSession();
-			session.setAttribute(PRE_PROJECT+"userid", "1");
-			return successAjax("登录成功","test");
+		int userid = userService.vertifyUser(username, password);
+		if(userid >= 0){
+			session.setAttribute(PRE_PROJECT+"userid", userid);
+			session.setAttribute(PRE_PROJECT+"username", username);
+			return successAjax("登录成功","/test");
 		}else{
 			return errorAjax("用户名或密码错误");
 		}

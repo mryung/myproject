@@ -12,7 +12,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id")
-	private int userId;
+	private Integer userId;
 
 	private String email;
 
@@ -20,7 +20,7 @@ public class User implements Serializable {
 	private String loginName;
 
 	@Column(name="organization_id")
-	private int organizationId;
+	private Integer organizationId;
 
 	private String password;
 
@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private Date userLastLoginTime;
 
 	@Column(name="user_login_count")
-	private int userLoginCount;
+	private Integer userLoginCount;
 
 	@Column(name="user_login_ip")
 	private String userLoginIp;
@@ -66,7 +66,7 @@ public class User implements Serializable {
 		this.loginName = loginName;
 	}
 
-	public int getOrganizationId() {
+	public Integer getOrganizationId() {
 		return this.organizationId;
 	}
 
@@ -98,7 +98,7 @@ public class User implements Serializable {
 		this.userGenTime = userGenTime;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
@@ -114,7 +114,7 @@ public class User implements Serializable {
 		this.userLastLoginTime = userLastLoginTime;
 	}
 
-	public int getUserLoginCount() {
+	public Integer getUserLoginCount() {
 		return this.userLoginCount;
 	}
 

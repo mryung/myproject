@@ -14,9 +14,9 @@ public class Message extends HashMap<String, Object>{
 	//重定向的URL
 //	public String redire;
 	//返回的消息
-	public String msg;
+//	public String msg;
 	//返回的 额外消息
-	public Map<String, Object> map;
+//	public Map<String, Object> map;
 	
 	public static Message newMessage(){
 		return new Message();
@@ -32,22 +32,22 @@ public class Message extends HashMap<String, Object>{
 	private Message() {
 	}
 	private Message(int code,String msg) {
-		put("code", code);
-		put("msg", msg);
+		put("status", code);
+		put("info", msg);
 	}
 	private Message(int code,String msg,String redire) {
 		this(code,msg);
-		put("redire", redire);
+		put("url", redire);
 	}
 	
 	public void setCode(int code){
-		put("code", code);
+		put("status", code);
 	}
 	public void setRedire(String redire){
-		put("redire", redire);
+		put("url", redire);
 	}
 	public void setMsg(String msg){
-		put("msg",msg);
+		put("info",msg);
 	}
 	
 	public void putParam(String key,Object value){

@@ -14,7 +14,7 @@ public class UserServiceImp implements UserService {
 	private UserDao userdao;
 
 	@Override
-	public int vertifyUser(String username, String password) {
+	public Integer vertifyUser(String username, String password) {
 		
 		User user;
 		user = userdao.findUserByUsername(username);
@@ -40,7 +40,7 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public Integer delectUser(int userid) {
+	public Integer delectUser(Integer userid) {
 		User user = userdao.findUserbyId(userid);
 		if(user == null){
 			return -1;

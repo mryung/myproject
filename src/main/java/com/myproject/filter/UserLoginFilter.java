@@ -24,7 +24,6 @@ public class UserLoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.err.println("dofilter");
 		if(request instanceof HttpServletRequest){
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			Object sessionuserid = httpServletRequest.getSession().getAttribute(PRE_PROJECT+"userid");
@@ -32,10 +31,12 @@ public class UserLoginFilter implements Filter {
 				chain.doFilter(request, response);
 			}else{
 				String requestURI = httpServletRequest.getRequestURI();
-				if(requestURI.contains("login") || requestURI.contains("checklogin")){
+				if(requestURI.contains("login") 
+						|| requestURI.contains("checklogin") 
+						|| requestURI.contains("resource")){
 					chain.doFilter(request, response);
 				}else{
-					request.getRequestDispatcher("login").forward(request, response);
+					request.getRequestDispatcher("/login").forward(request, response);
 				}
 			}
 		}
